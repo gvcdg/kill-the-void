@@ -50,26 +50,20 @@
     const stage = document.getElementById("stage");
     const word = document.getElementById("killthevoid");
     const NUM_LAYERS = 8;
-
-    const soundFiles = [
-        "sound1.mp3",
-        "sound2.mp3",
-        "sound3.mp3"
-    ];
+    const NUM_SOUNDS = 84;
 
     let currentAudio = null;
 
     function random(min, max) { return Math.random() * (max - min) + min; }
 
     function spawnLayer(word) {
-        console.log("spawning layer:", word);
         const div = document.createElement("div");
         div.className = "layer";
         div.textContent = word;
         const fontSize = random(20, 80);
         const opacity = random(0.5, 0.95);
         const offsetY = (random(-400, 300)) + "px";
-        const duration = random(30, 60);
+        const duration = random(20, 80);
         div.style.fontSize = fontSize + "px";
         div.style.opacity = opacity;
         div.style.setProperty("--offsetY", offsetY);
@@ -78,23 +72,20 @@
         stage.appendChild(div);
         div.addEventListener("animationend", () => {
             div.remove();
-            spawnLayer(RALLIES[Math.floor(Math.random() * RALLIES.length)]);
+            spawnLayer(RALLIES[random(0, RALLIES.length) | 0]);
         });
     }
 
     for (let i = 0; i < NUM_LAYERS; i++) {
-        const delay = random(1 + i, 5 + i) * 1000;
-        setTimeout(() => {
-            spawnLayer(RALLIES[Math.floor(Math.random() * RALLIES.length)]);
-        }, delay);
+        spawnLayer(RALLIES[Math.floor(random(0, RALLIES.length))]);
     }
 
     word.addEventListener("click", () => {
         if (currentAudio && !currentAudio.paused) {
             return;
         }
-        const file = soundFiles[Math.floor(Math.random() * soundFiles.length)];
-        const audio = new Audio(file);
+        const index = Math.floor(random(1, NUM_SOUNDS + 1));
+        const audio = new Audio(`sound${index.toString().padStart(2, '0')}.mp3`);
         currentAudio = audio;
         audio.volume = 0.6;
         audio.addEventListener("ended", () => {
