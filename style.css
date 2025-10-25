@@ -84,13 +84,6 @@ body {
 }
 
 .logo:hover {
-    transform: translateY(-3px) scale(1.03);
+    transform: translateY(-5px) scale(1.03);
     opacity: 1;
-}
-
-/* Keep small-screen touch targets comfortable */
-@media (max-width: 420px) {
-    .logo {
-        width: clamp(36px, 12vw, 72px);
-    }
 }
