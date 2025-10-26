@@ -87,3 +87,27 @@ body {
     transform: translateY(-5px) scale(1.03);
     opacity: 1;
 }
+
+.clef {
+    position: fixed;
+    left: clamp(8px, 2.5vw, 28px);
+    bottom: clamp(8px, 0.5vw, 28px);
+    width: auto;
+    height: auto;
+    z-index: 20;
+    pointer-events: auto;
+    user-select: none;
+    display: none;
+    cursor: pointer;
+    transition: transform .15s ease, opacity .15s ease;
+    filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.6));
+    color: #febf45;
+    opacity: 0.5;
+    /* text color */
+    font-size: clamp(48px, 3vw, 256px);
+    /* large font size */
+}
+
+.clef:hover {
+    opacity: 1;
+}

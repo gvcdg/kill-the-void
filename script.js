@@ -80,18 +80,40 @@
         spawnLayer(RALLIES[Math.floor(random(0, RALLIES.length))]);
     }
 
+    let clickCount = 0;
+    const clef = document.querySelector('.clef');
+
     word.addEventListener("click", () => {
         if (currentAudio && !currentAudio.paused) {
             return;
         }
+        clickCount++;
         const index = Math.floor(random(1, NUM_SOUNDS + 1));
         const audio = new Audio(`sound${index.toString().padStart(2, '0')}.mp3`);
         currentAudio = audio;
         audio.volume = 0.6;
         audio.addEventListener("ended", () => {
             if (currentAudio === audio) currentAudio = null;
+            if (clickCount === 10) {
+                clef.style.display = 'block';
+            }
         });
         audio.addEventListener("error", () => {
+            if (currentAudio === audio) currentAudio = null;
+        });
+        audio.play().catch(() => {
+            if (currentAudio === audio) currentAudio = null;
+        });
+    });
+
+    clef.addEventListener("click", () => {
+        if (currentAudio && !currentAudio.paused) return;
+        clickCount = 0;
+        clef.style.display = 'none';
+        const audio = new Audio('song.mp3');
+        currentAudio = audio;
+        audio.volume = 0.6;
+        audio.addEventListener("ended", () => {
             if (currentAudio === audio) currentAudio = null;
         });
         audio.play().catch(() => {
